@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>test</title>
+  <style>
+    body,
+    input,
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    ul,
+    li {
+      list-style: none;
+    }
+
+    input {
+      outline: none;
+      border: none;
+    }
+
+    .wrapper {
+      width: 300px;
+      margin: 20px auto;
+
+    }
+
+    #email-input {
+      width: 100%;
+      height: 35px;
+      border: 1px solid #ddd;
+      font-size: 18px;
+      text-indent: 0.56em;
+    }
+
+    #email-sug-wrapper {
+      width: 100%;
+      border: 1px solid #ddd;
+      font-size: 18px;
+      line-height: 36px;
+      cursor: pointer;
+      display: none;
+      text-indent: 0.56em;
+    }
+
+    #email-sug-wrapper li:hover {
+      background-color: skyblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <input id="email-input" type="text" autofocus>
+    <ul id="email-sug-wrapper" class="email-sug">
+    </ul>
+  </div>
+  <script>
+    // 邮箱后缀List参考
+    const postfixList = ['@163.com', '@gmail.com', '@126.com', '@qq.com', '@263.net'];
+    let emailInputDom = document.getElementById('email-input');
+    let emailSugWrapperDom = document.getElementById('email-sug-wrapper');
+
+    emailInputDom.oninput = function() {
+      addValueEmailSugWrapper();
+      emailSugWrapperStatus();
+    };
+
+    // 获取用户输入内容 trim 去空返回
+    function getUserInput() {
+      return emailInputDom.value.trim();
+    };
+
+    // 生成提示框的中的提示内容
+    function generateContent() {
+      // 获取用户输入
+      let userVal = getUserInput();
+      //  判断 如果用户输入的值带有 @ 切割 !== 无效
+      if (userVal.indexOf('@') != '-1') {
+        //   用来拼接的用户输入内容 = @之前的字符串
+        userVal = userVal.substring(0, userVal.indexOf('@'));
+        //   用来前缀匹配的用户输入内容 = @之后的字符串
+        // var reVal = userVal(userVal.indexOf('@'), userVal.length);
+      };
+
+      // 遍历邮箱数组  拼接用户输入
+      // return 一次只能返回一个 定义一个数据用于返回全部 或许用 yelid
+      let liDoms = [];
+      for (let i = 0; i < postfixList.length; i++) {
+        //  if 用来前缀匹配的用户输入内容前缀匹配遍历字符串元素
+        // 把用来拼接的用户输入内容和这个字符串进行结合成为一个Li
+
+        //  把用户输入和每一个postfix进行结合成为每一个Li
+        //  创建元素节点
+        let liDom = document.createElement('li');
+        //  创建文本节点
+        let liContent = document.createTextNode(userVal + postfixList[i])
+        //  元素节点添加内容
+        liDom.appendChild(liContent);
+        liDoms.push(liDom);
+      }
+      return liDoms
+    };
+
+    // 点击 liDoms 将内容放入输入框
+    emailSugWrapperDom.addEventListener('click', ev => {
+      let val = ev.target.innerHTML
+      emailInputDom.value = val;
+      hideInput();
+    }, false);
+
+    // 将提示内容添加到 提示框中
+    function addValueEmailSugWrapper() {
+      let liDoms = generateContent();
+      emailSugWrapperDom.innerHTML = '';
+      for (let i = 0; i < liDoms.length; i++) {
+        emailSugWrapperDom.appendChild(liDoms[i]);
+      }
+    };
+
+    // 根据输入的内容显示/隐藏提示框
+    function emailSugWrapperStatus() {
+      if (getUserInput()) {
+        showInput();
+      } else {
+        hideInput();
+      }
+    };
+
+    // 显示隐藏提示框
+    function showInput() {
+      emailSugWrapperDom.style.display = 'block';
+    };
+
+    function hideInput() {
+      emailSugWrapperDom.style.display = 'none';
+    };
+  </script>
+</body>
+
+</html>
