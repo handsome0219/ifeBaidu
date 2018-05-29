@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="handsomeFu">
+  <title>制作一个简单的菜单动画效果</title>
+  <style>
+    body,
+    span,
+      {
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .box {
+      width: 300px;
+      margin: 150px auto;
+      text-align: center;
+    }
+
+    .box .content {
+      width: 180px;
+      font-size: 30px;
+      color: #000;
+      position: relative;
+      margin: 0 auto;
+
+    }
+
+    .box .content::after {
+      content: '';
+      width: 180px;
+      height: 3px;
+      background: blue;
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      transform: scale(1);
+    }
+
+    .box .changeStyleBtn {
+      display: block;
+      width: 100px;
+      line-height: 30px;
+      margin: 20px auto;
+      color: #000;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.66);
+      border-radius: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <p class="content">杭州丶付帅帅</p>
+    <a href="javasscript:void(0);" class="changeStyleBtn">切换样式</a>
+  </div>
+  <script>
+    let changeStyleBtn = document.querySelector('.changeStyleBtn');
+    let content = document.querySelector('.content');
+    changeStyleBtn.addEventListener('click', function() {
+      // console.log(content);
+      // content.style.cssText = 'color:blue;transition: all 4s ease;'
+
+    }, false);
+  </script>
+</body>
+
+</html>
